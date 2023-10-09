@@ -4,7 +4,7 @@
 
 <br/>
 
-Solutions from these languages will be in Python. Some solutions come from [neetcode.io](https://www.neetcode.io/). Shout out to Mr. Neetcode for his awesome work! Some other come from variation of solutions posted on leetcode discussion board.
+Solutions from these languages will be in Python. Some solutions come from [neetcode.io](https://www.neetcode.io/). Shout out to Mr. Neetcode for his awesome work! Some other come from variation of solutions posted on leetcode discussion board. Shout out to the original authors!
 
 The code documented in this repo is for the most intuitive, memorizable, and extensible solutions. Some of the techniques used could be easily reused and apply to many other problems. Hence I organized them as notes in this repo.
 
