@@ -4,11 +4,10 @@ class UF:
         self.rank = [1] * n
 
     def find(self, n1):
-        p1 = n1
-        while p1 != self.par[p1]:
-            self.par[p1] = self.par[self.par[p1]]
-            p1 = self.par[p1]
-        return p1
+        while n1 != self.par[n1]:
+            self.par[n1] = self.par[self.par[n1]]
+            n1 = self.par[n1]
+        return n1
 
     def union(self, n1, n2):
         p1, p2 = self.find(n1), self.find(n2)
