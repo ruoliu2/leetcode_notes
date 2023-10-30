@@ -48,17 +48,35 @@ def topsort(g):
 # topsort + bfs
 
 
+class Solution:
+    def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
+        inDeg = defaultdict(int)
+        pre = defaultdict(list)
+        for n1, n2 in prerequisites:
+            inDeg[n2] += 1
+            pre[n1].append(n2)
+
+        zeroDeg = [i for i in range(numCourses) if inDeg[i] == 0]
+        visit = len(zeroDeg)
+        q = collections.deque(zeroDeg)
+        while q:
+            cur = q.popleft()
+            for nei in pre[cur]:
+                inDeg[nei] -= 1
+                if inDeg[nei] == 0:
+                    visit += 1
+                    q.append(nei)
+        return visit == numCourses
 
 
-import collections
 def largestPathValue(self, colors: str, edges: List[List[int]]) -> int:
     n = len(colors)
     indegrees = [0] * n
-    graph = collections.defaultdict(list)
+    graph = defaultdict(list)
     for s, d in edges:
         graph[s].append(d)
         indegrees[d] += 1
-    zero_indegrees = collections.deque(
+    zero_indegrees = deque(
         [i for i in range(n) if indegrees[i] == 0])
     cnt = [[0] * 26 for i in range(n)]
 
