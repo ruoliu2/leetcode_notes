@@ -26,8 +26,8 @@ def bisect_right(arr, target):
     l, r = 0, len(arr)
     while l < r:
         m = (l + r) // 2
-        if arr[m] > target:
-            r = m
-        else:
+        if arr[m] <= target:
             l = m + 1
+        else:
+            r = m
     return l
