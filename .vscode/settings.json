@@ -4,6 +4,7 @@
     "*.cuh": "cpp",
     "vector": "cpp",
     "deque": "cpp",
-    "tuple": "cpp"
+    "tuple": "cpp",
+    "string": "cpp"
   }
 }

@@ -19,6 +19,7 @@ The notes are still under construction. The topics to add in consideration are:
 - [ ] Trie/Compressed Trie
 - [ ] More DP!
 - [ ] Hash
+- [ ] Add cpp, java, js, go
 
 <br/>
 
