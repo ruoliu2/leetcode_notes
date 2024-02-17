@@ -1,17 +1,20 @@
-# another problem, two places to check visit
-from typing import List
 import collections
-from itertools import product
 from collections import deque
+from itertools import product
+from typing import List
 
+# another problem, two places to check visit
 
 class Solution:
-    def maximumSafenessFactor(self, grid: List[List[int]]) -> int:
+    def maximumSafenessFactor(self, grid: List[List[int]]):
         n = len(grid)
-        queue, safeness = deque(), [[-1] * n for _ in range(n)]
+        queue = deque()
         unseen = set(product(range(n), range(n)))
-        def nei(x, y): return set(
-            ((x-1, y), (x, y-1), (x+1, y), (x, y+1))) & unseen
+
+        def nei(x, y):
+            return set(((x - 1, y), (x, y - 1), (x + 1, y), (x, y + 1))) & unseen
+
+        # ((x-1, y), (x, y-1), (x+1, y), (x, y+1))) - seen
 
         queue.append((0, 0, 0))
         unseen.discard((0, 0))
@@ -19,7 +22,7 @@ class Solution:
             s, x, y = queue.popleft()
             for nx, ny in nei(x, y):
                 unseen.discard((nx, ny))
-                queue.append((s+1, nx, ny))
+                queue.append((s + 1, nx, ny))
 
 
 class Solution1:  # prefered
@@ -35,14 +38,17 @@ class Solution1:  # prefered
             steps, x0, y0, rk = q.popleft()
             if rk < 0:
                 continue
-            if (x0, y0) == (m-1, n-1):
+            if (x0, y0) == (m - 1, n - 1):
                 return steps
             for xd, yd in dir:
                 x1, y1 = x0 + xd, y0 + yd
-                if (0 <= x1 < m and 0 <= y1 < n
-                        and (x1, y1, rk - grid[x1][y1]) not in visit):
+                if (
+                    0 <= x1 < m
+                    and 0 <= y1 < n
+                    and (x1, y1, rk - grid[x1][y1]) not in visit
+                ):
                     visit.add((x1, y1, rk - grid[x1][y1]))
-                    q.append((steps+1, x1, y1, rk - grid[x1][y1]))
+                    q.append((steps + 1, x1, y1, rk - grid[x1][y1]))
         return -1
 
 

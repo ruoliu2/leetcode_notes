@@ -1,4 +1,7 @@
-'''
+from collections import defaultdict, deque
+from typing import List
+
+"""
 https://www.baeldung.com/cs/dag-topological-sort
 
 recursive:
@@ -24,10 +27,9 @@ def dfs(u):
     post(u) = ++ time
 
 time: (m+n)
+"""
 
-'''
-
-'''
+"""
 iterative: (Kahn's)
 
 def topsort(g):
@@ -43,7 +45,7 @@ def topsort(g):
                 add v to q 
     return l
 
-'''
+"""
 
 # topsort + bfs
 
@@ -58,7 +60,7 @@ class Solution:
 
         zeroDeg = [i for i in range(numCourses) if inDeg[i] == 0]
         visit = len(zeroDeg)
-        q = collections.deque(zeroDeg)
+        q = deque(zeroDeg)
         while q:
             cur = q.popleft()
             for nei in pre[cur]:
@@ -76,14 +78,13 @@ def largestPathValue(self, colors: str, edges: List[List[int]]) -> int:
     for s, d in edges:
         graph[s].append(d)
         indegrees[d] += 1
-    zero_indegrees = deque(
-        [i for i in range(n) if indegrees[i] == 0])
+    zero_indegrees = deque([i for i in range(n) if indegrees[i] == 0])
     cnt = [[0] * 26 for i in range(n)]
 
     visit = res = 0
     while zero_indegrees:
         node = zero_indegrees.popleft()
-        cnt[node][ord(colors[node]) - ord('a')] += 1
+        cnt[node][ord(colors[node]) - ord("a")] += 1
         visit += 1
         for nei in graph[node]:
             for c in range(26):

@@ -1,4 +1,5 @@
-'''single source shortest path
+"""
+single source shortest path
 for each u in V:
     d[u] = inf
 d[s] = 0
@@ -11,16 +12,18 @@ for each v in V:
 time:  O(mn)
 space: O(n)
     
-'''
+"""
 
 
 class Solution:
-    def findCheapestPrice(self, n: int, flights: list[list[int]], src: int, dst: int, k: int) -> int:
-        prices = [float('inf')] * n
+    def findCheapestPrice(
+        self, n: int, flights: list[list[int]], src: int, dst: int, k: int
+    ) -> int:
+        prices = [float("inf")] * n
         prices[src] = 0
-        for _ in range(k+1):
+        for _ in range(k + 1):
             tmp = prices[:]
             for s, d, p in flights:
                 prices[d] = min(prices[s] + p, tmp[d])
             prices = tmp
-        return prices[dst] if prices[dst] != float('inf') else -1
+        return prices[dst] if prices[dst] != float("inf") else -1
