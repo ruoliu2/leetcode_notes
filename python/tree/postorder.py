@@ -11,7 +11,7 @@
 
 # 4, 5, 2, 6, 7, 3, 1
 class Solution:
-    def postorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
+    def postorderTraversal(self, root: Optional[TreeNode]) -> list[int]:
         st, visit, res = [root], set(), []
         cur = root
         while st:

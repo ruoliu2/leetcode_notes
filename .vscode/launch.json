@@ -2,6 +2,27 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "type": "java",
+      "name": "MergeSort",
+      "request": "launch",
+      "mainClass": "com.example.sorting.MergeSort",
+      "projectName": "lc-classic_e43a39f9"
+    },
+    {
+      "type": "java",
+      "name": "MergeSort",
+      "request": "launch",
+      "mainClass": "java.com.example.sorting.MergeSort",
+      "projectName": "lc-classic_e43a39f9"
+    },
+    {
+      "type": "java",
+      "name": "MergeSort",
+      "request": "launch",
+      "mainClass": "java.sorting.MergeSort",
+      "projectName": "lc-classic_e43a39f9"
+    },
+    {
       "name": "C/C++: clang++ build and debug active file",
       "type": "cppdbg",
       "request": "launch",

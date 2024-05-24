@@ -1,5 +1,5 @@
 class Solution:
-    def getMaxFunctionValue(self, receiver: List[int], k: int) -> int:
+    def getMaxFunctionValue(self, receiver: list[int], k: int) -> int:
         # n = len(receiver)
         # if k <= 0:
         #     return n - 1
