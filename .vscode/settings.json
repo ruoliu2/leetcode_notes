@@ -6,5 +6,8 @@
     "deque": "cpp",
     "tuple": "cpp",
     "string": "cpp"
-  }
+  },
+  "python.testing.pytestArgs": ["python"],
+  "python.testing.unittestEnabled": false,
+  "python.testing.pytestEnabled": true
 }
