@@ -1,95 +1,51 @@
-from collections import defaultdict
-from collections import deque
+# 210 dfs with cycle & append only after dependency
+class Solution:
+    def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
+        g = [set() for i in range(numCourses)]
+        for a, b in prerequisites:
+            g[a].add(b)
+        visit = set()
+        path = set()
+        res = []
 
-
-# Compute the exchange rate
-def maxAmountofExchange(exchanges: list[str], from_currency, to_currency):
-    graph = defaultdict(list)
-    for src, des, weight in exchanges:
-        graph[src].append((des, float(weight)))
-        graph[des].append((src, 1.0/float(weight)))
-
-    rate = [-1.0]
-
-    # DFS Iterative
-    def dfs_iter(src, des):
-        rate = -1.0
-        if src not in graph or des not in graph:
-            return rate
-        stack = [(src, 1.0)]
-        visited = set([src])
-        while stack:
-            currency, exch = stack.pop()
-            if currency == des:
-                rate = max(rate, exch)
-            for neighbor, weight in graph[currency]:
-                if neighbor not in visited:
-                    stack.append((neighbor, exch * weight))
-                    visited.add(neighbor)
-        return rate
-
-    # DFS recursive
-    visited = set([from_currency])
-
-    def dfs(src, des, exch):
-        if src not in graph or des not in graph:
-            return
-        if src == des:
-            rate[0] = max(rate[0], exch)
-            return
-        for neighbor, weight in graph[src]:
-            if neighbor not in visited:
-                visited.add(src)
-                dfs(neighbor, des, exch * weight)
-
-    # BFS doesn't work because it goes level by level and once we hit
-    # the currency we want to exchange the value to we can't go any further
-    def bfs(src, des):
-        rate = -1.0
-        if src not in graph or des not in graph:
-            return rate
-        queue = deque([(src, 1.0)])
-        visited = set([src])
-        while queue:
-            currency, exch = queue.popleft()
-            if currency == des:
-                rate = max(rate, exch)
-            for neighbor, weight in graph[currency]:
-                if neighbor not in visited:
-                    queue.append((neighbor, exch * weight))
-                    visited.add(neighbor)
-        return rate
-
-    dfs(from_currency, to_currency, 1.0)
-    return rate[0]
-
-
-# another problem prereq list
-def canFinish(numCourses: int, prerequisites: list[list[int]]) -> bool:
-    # dfs
-    preMap = {i: [] for i in range(numCourses)}
-
-    # map each course to : prereq list
-    for crs, pre in prerequisites:
-        preMap[crs].append(pre)
-
-    visiting = set()
-
-    def dfs(crs):
-        if crs in visiting:
-            return False
-        if preMap[crs] == []:
+        def dfs(node):
+            if node in path:
+                return False
+            if node in visit:
+                return True
+            path.add(node)
+            for nei in g[node]:
+                if not dfs(nei):
+                    return False
+            path.discard(node)
+            visit.add(node)
+            res.append(node)
             return True
 
-        visiting.add(crs)
-        for pre in preMap[crs]:
-            if not dfs(pre):
-                return False
-        visiting.remove(crs)
-        preMap[crs] = []
-        return True
+        for i in range(numCourses):
+            if not dfs(i):
+                return []
+        return res
 
-    for c in range(numCourses):
-        if not dfs(c):
-            return False
-    return True
+
+# 332
+class Solution:
+    def findItinerary(self, tickets: List[List[str]]) -> List[str]:
+        g = defaultdict(list)
+
+        for src, dst in sorted(tickets, reverse=True):
+            g[src].append(dst)
+
+        for s in g:
+            print(s, g[s])
+
+        res = []
+
+        def dfs(airport):
+            while g[airport]:
+                dfs(g[airport].pop())
+            res.append(airport)
+
+        dfs("JFK")
+
+        return res[::-1]
