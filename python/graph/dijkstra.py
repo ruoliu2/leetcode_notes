@@ -38,8 +38,9 @@ class Solution2:
         dist = {}
         while hp:
             w, v = heapq.heappop(hp)
-            if v not in dist:
-                dist[v] = w
-                for nei, neiDist in graph[v]:
-                    heapq.heappush(hp, (w + neiDist, nei))
+            if v in dist:
+                continue
+            dist[v] = w
+            for nei, neiDist in graph[v]:
+                heapq.heappush(hp, (w + neiDist, nei))
         # dist is the dist to every node from k
