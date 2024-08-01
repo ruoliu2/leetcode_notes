@@ -1,4 +1,6 @@
 # max stack
+
+
 @total_ordering
 class Node:
     def __init__(
