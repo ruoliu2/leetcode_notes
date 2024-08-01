@@ -4,12 +4,14 @@ class BIT:
         self.size = size
 
     def update(self, i, value):
+        # update element at index i by value
         i += 1
         while i <= self.size:
             self.tree[i] += value
             i += self.low_bit(i)
 
     def getSum(self, i):
+        # get sum of elements from 0 to i inclusive
         preSum, i = 0, i + 1
         while i > 0:
             preSum += self.tree[i]
@@ -61,7 +63,6 @@ class NumArray:
         self.nums[i] = val
 
     def sumRange(self, l: int, r: int) -> int:
-        # BIT is 1 based tree, right will be added by 1
-        # For left we need sum of vales that left to the left means left-1
-        # Instead of getting sum for left-1, we will search for only left, as BIT is 1 based tree.
+        # BIT is 1 based tree, right will be added by 1, done in BIT alr
+        # For range sum from l to r, we need to get sum from 0 to r and subtract sum from 0 to l - 1
         return self.tree.getSum(r) - self.tree.getSum(l - 1)
