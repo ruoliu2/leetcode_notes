@@ -43,7 +43,7 @@ class Solution:
         res = 0
         for i in range(n):
             cnt_r.update(rtoi[rating[i]], -1)
-            ll = cnt_l.getSum(rtoi[rating[i]])
+            ll = cnt_l.getSum(rtoi[rating[i]] - 1)
             rg = cnt_r.getSum(n - 1) - cnt_r.getSum(rtoi[rating[i]])
 
             res += ll * rg + (i - ll) * (n - i - rg - 1)
