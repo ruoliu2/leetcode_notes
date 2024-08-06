@@ -1,37 +1,64 @@
-# lc 778
-# MST
+from typing import List
+
+
+class UnionFind:
+    def __init__(self, n):
+        self.par = list(range(n))
+        self.rank = [1] * n
+
+    def find(self, n1):
+        while n1 != self.par[n1]:
+            self.par[n1] = self.par[self.par[n1]]
+            n1 = self.par[n1]
+        return n1
+
+    def union(self, n1, n2):
+        p1, p2 = self.find(n1), self.find(n2)
+        if p1 == p2:
+            return 0
+        if self.rank[p2] > self.rank[p1]:
+            p1, p2 = p2, p1
+        self.par[p2] = p1
+        self.rank[p1] += self.rank[p2]
+        return 1
+
+    def isConnected(self):
+        return max(self.rank) == len(self.rank)
+
+
+# 1489
 class Solution:
-    def swimInWater(self, grid: list[list[int]]) -> int:
-        # find the representative of the set
-        def parent(x):
-            while root[x] != x:
-                root[x] = root[root[x]]
-                x = root[x]
-            return x
+    def findCriticalAndPseudoCriticalEdges(
+        self, n: int, edges: List[List[int]]
+    ) -> List[List[int]]:
+        # Time: O(E^2) - UF operations are assumed to be approx O(1)
+        for i, e in enumerate(edges):
+            e.append(i)  # [v1, v2, weight, original_index]
 
-        def union(x, y):
-            px = parent(x)
-            py = parent(y)
-            if px != py:
-                if size[px] > size[py]:
-                    px, py = py, px
-                size[py] += size[px]
-                root[px] = py
+        edges.sort(key=lambda e: e[2])
 
-        n = len(grid)
-        size = [1]*(n*n)
-        root = list(range(n*n))
-        vis = [[False]*n for _ in range(n)]
-        positions = sorted([(i, j) for i in range(n)
-                           for j in range(n)], key=lambda x: grid[x[0]][x[1]])
+        def findWeight(visit, uf, wei):
+            for v1, v2, w, i in edges:
+                if i != visit and uf.union(v1, v2):
+                    wei += w
+            return wei
 
-        for i, j in positions:
-            vis[i][j] = True
-            # explore the neighbors to grow the disjoint sets
-            for x, y in (i+1, j), (i-1, j), (i, j-1), (i, j+1):
-                if 0 <= x < n and 0 <= y < n and vis[x][y]:
-                    union(i*n+j, x*n+y)
+        uf = UnionFind(n)
+        mst_wei = findWeight(-1, uf, 0)
 
-            # the start and end points are joined together
-            if parent(0) == parent(n*n-1):
-                return grid[i][j]
+        critical, pseudo = [], []
+        for n1, n2, e_wei, i in edges:
+            # Try without curr edge
+            uf = UnionFind(n)
+            wei = findWeight(i, uf, 0)
+            if not uf.isConnected() or wei > mst_wei:
+                critical.append(i)
+                continue
+
+            # Try with curr edge
+            uf = UnionFind(n)
+            uf.union(n1, n2)
+            wei = findWeight(-1, uf, e_wei)
+            if wei == mst_wei:
+                pseudo.append(i)
+        return [critical, pseudo]
