@@ -10,8 +10,9 @@ class Solution:
         graph = collections.defaultdict(list)
         for i in range(n):
             for j in range(i + 1, n):
-                mdist = (abs(points[i][0] - points[j][0]) +
-                         abs(points[i][1] - points[j][1]))
+                mdist = abs(points[i][0] - points[j][0]) + abs(
+                    points[i][1] - points[j][1]
+                )
                 graph[i].append([j, mdist])
                 graph[j].append([i, mdist])
         # above making graph
@@ -25,7 +26,7 @@ class Solution:
                 continue
             res += cost
             visit.add(idx)
-            for nei, neiCost in graph[idx]:
+            for nei, nei_cost in graph[idx]:
                 if nei not in visit:
-                    heapq.heappush(hp, [neiCost, nei])
+                    heapq.heappush(hp, [nei_cost, nei])
         return res
