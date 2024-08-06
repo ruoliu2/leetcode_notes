@@ -1,11 +1,7 @@
-from collections import defaultdict, deque
-from typing import List
-
 """
 https://www.baeldung.com/cs/dag-topological-sort
 
 recursive:
-
 def topsort(G):
     mark all nodes u as visited
     T = {}
@@ -16,7 +12,6 @@ def topsort(G):
     
     # the post-ordring sort should be topsort result 
     # root is largest
-    
 def dfs(u):
     mark u as visited
     pre(u) = ++ time
@@ -25,13 +20,10 @@ def dfs(u):
             add edge (u, v) to T
             dfs(v)
     post(u) = ++ time
-
 time: (m+n)
-"""
 
-"""
+
 iterative: (Kahn's)
-
 def topsort(g):
     compute inDegree for v in g
     put all v in q
@@ -46,6 +38,9 @@ def topsort(g):
     return l
 
 """
+
+from collections import defaultdict, deque
+from typing import List
 
 # topsort + bfs
 
@@ -69,29 +64,3 @@ class Solution:
                 if inDeg[nei] == 0:
                     q.append(nei)
         return visit == numCourses
-
-
-def largestPathValue(self, colors: str, edges: List[List[int]]) -> int:
-    n = len(colors)
-    indegrees = [0] * n
-    graph = defaultdict(list)
-    for s, d in edges:
-        graph[s].append(d)
-        indegrees[d] += 1
-    zero_indegrees = deque([i for i in range(n) if indegrees[i] == 0])
-    cnt = [[0] * 26 for i in range(n)]
-
-    visit = res = 0
-    while zero_indegrees:
-        node = zero_indegrees.popleft()
-        cnt[node][ord(colors[node]) - ord("a")] += 1
-        visit += 1
-        for nei in graph[node]:
-            for c in range(26):
-                cnt[nei][c] = max(cnt[nei][c], cnt[node][c])
-            indegrees[nei] -= 1
-            if indegrees[nei] == 0:
-                zero_indegrees.append(nei)
-        res = max(res, max(cnt[node]))
-
-    return res if visit == n else -1

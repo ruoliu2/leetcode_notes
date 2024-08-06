@@ -1,3 +1,6 @@
+from bisect import bisect_left
+
+
 class Solution:
     def lengthOfLIS1D(self, nums: list[int]) -> int:
         # f[i] = 1 + max(f[j] for j in range(i + 1, n) if nums[j] > nums[i])

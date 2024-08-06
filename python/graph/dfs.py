@@ -1,4 +1,7 @@
 # 210 dfs with cycle & append only after dependency
+from typing import List
+
+
 class Solution:
     def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
         g = [set() for i in range(numCourses)]
@@ -26,26 +29,3 @@ class Solution:
             if not dfs(i):
                 return []
         return res
-
-
-# 332
-class Solution:
-    def findItinerary(self, tickets: List[List[str]]) -> List[str]:
-        g = defaultdict(list)
-
-        for src, dst in sorted(tickets, reverse=True):
-            g[src].append(dst)
-
-        for s in g:
-            print(s, g[s])
-
-        res = []
-
-        def dfs(airport):
-            while g[airport]:
-                dfs(g[airport].pop())
-            res.append(airport)
-
-        dfs("JFK")
-
-        return res[::-1]
