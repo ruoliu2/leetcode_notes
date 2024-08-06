@@ -9,7 +9,7 @@ def bucketSort(arr):
     # Fill each bucket in the original array
     p = 0
     for i, count in enumerate(counts):
-        for j in range(count):
+        for _ in range(count):
             arr[p] = i
             p += 1
     return arr

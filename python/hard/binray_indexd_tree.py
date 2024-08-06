@@ -1,3 +1,6 @@
+from typing import List
+
+
 class BIT:
     def __init__(self, size):
         self.tree = [0] * (size + 1)

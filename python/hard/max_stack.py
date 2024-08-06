@@ -1,6 +1,8 @@
+from heapq import heappush, heappop
+from functools import total_ordering
+
+
 # max stack
-
-
 @total_ordering
 class Node:
     def __init__(

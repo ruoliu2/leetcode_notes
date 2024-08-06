@@ -1,3 +1,8 @@
+from collections import Counter
+from typing import List
+import collections
+
+
 class Solution:
     def findSubstring(self, s: str, words: List[str]) -> List[int]:
         wlen = len(words[0])
@@ -13,7 +18,7 @@ class Solution:
             used_cnt = 0
             # iterate while, until hit end, interval wlen
             for i in range(start, len(s) - wlen + 1, wlen):
-                cword = s[i:i+wlen]
+                cword = s[i : i + wlen]
 
                 if cword not in words_cnt:
                     # clear wnd, reset used word cnt
@@ -25,7 +30,7 @@ class Solution:
                 wnd_cnt[cword] += 1
                 used_cnt += 1
                 while wnd_cnt[cword] > words_cnt[cword]:
-                    wnd_cnt[s[start:start+wlen]] -= 1
+                    wnd_cnt[s[start : start + wlen]] -= 1
                     used_cnt -= 1
                     start += wlen
 

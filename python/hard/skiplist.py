@@ -1,3 +1,6 @@
+import random
+
+
 # 1206
 class ListNode:
     __slots__ = ("val", "next", "down")

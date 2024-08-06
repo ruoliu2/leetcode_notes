@@ -9,9 +9,7 @@ SCC
 
 def dfs(g):
 
-
 """
-
 
 import collections
 
