@@ -22,7 +22,7 @@ class UnionFind:
         self.rank[p1] += self.rank[p2]
         return 1
 
-    def isConnected(self):
+    def is_connected(self):
         return max(self.rank) == len(self.rank)
 
 
@@ -37,28 +37,28 @@ class Solution:
 
         edges.sort(key=lambda e: e[2])
 
-        def findWeight(visit, uf, wei):
+        def find_weight(visit, uf, wei):
             for v1, v2, w, i in edges:
                 if i != visit and uf.union(v1, v2):
                     wei += w
             return wei
 
         uf = UnionFind(n)
-        mst_wei = findWeight(-1, uf, 0)
+        mst_wei = find_weight(-1, uf, 0)
 
         critical, pseudo = [], []
         for n1, n2, e_wei, i in edges:
             # Try without curr edge
             uf = UnionFind(n)
-            wei = findWeight(i, uf, 0)
-            if not uf.isConnected() or wei > mst_wei:
+            wei = find_weight(i, uf, 0)
+            if not uf.is_connected() or wei > mst_wei:
                 critical.append(i)
                 continue
 
             # Try with curr edge
             uf = UnionFind(n)
             uf.union(n1, n2)
-            wei = findWeight(-1, uf, e_wei)
+            wei = find_weight(-1, uf, e_wei)
             if wei == mst_wei:
                 pseudo.append(i)
         return [critical, pseudo]
