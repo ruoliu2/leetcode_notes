@@ -59,14 +59,14 @@ class Solution:
             pre[n1].append(n2)
 
         zeroDeg = [i for i in range(numCourses) if inDeg[i] == 0]
-        visit = len(zeroDeg)
+        visit = 0
         q = deque(zeroDeg)
         while q:
             cur = q.popleft()
+            visit += 1
             for nei in pre[cur]:
                 inDeg[nei] -= 1
                 if inDeg[nei] == 0:
-                    visit += 1
                     q.append(nei)
         return visit == numCourses
 
