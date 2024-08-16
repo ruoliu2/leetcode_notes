@@ -1,6 +1,6 @@
 def merge(arr, s, m, e):
     # Copy the sorted left & right halfs to temp arrays
-    l, r = arr[s: m + 1], arr[m + 1: e + 1]
+    l, r = arr[s : m + 1], arr[m + 1 : e + 1]
     i = j = 0  # index for l & r
     k = s  # index for arr
     while i < len(l) and j < len(r):  # merge two sorted halfs
@@ -18,11 +18,11 @@ def merge(arr, s, m, e):
         arr[k:] = r[j:]
 
 
-def mergeSort(arr, s, e):
+def merge_sort(arr, s, e):
     if e <= s:
         return arr
     m = (s + e) // 2
-    mergeSort(arr, s, m)
-    mergeSort(arr, m + 1, e)
+    merge_sort(arr, s, m)
+    merge_sort(arr, m + 1, e)
     merge(arr, s, m, e)
     return arr
