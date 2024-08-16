@@ -10,13 +10,10 @@ class Solution:
         while cur:
             nxt = cur.next  # save next of cur
             cur.next = prev
-            # move both ptrs
-            prev, cur = cur, nxt
+            prev, cur = cur, nxt  # move both ptrs
         return prev
 
-        # 1 2 3 4
-        # 4 3 2 1
-        # 4 3 2
+    def reverseList2(self, head: Optional[ListNode]) -> Optional[ListNode]:
         if (not head) or (not head.next):
             return head
         p = self.reverseList(head.next)
