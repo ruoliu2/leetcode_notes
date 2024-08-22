@@ -3,9 +3,9 @@ package org.example.Util;
 import java.util.Collections;
 import java.util.PriorityQueue;
 
-public class PqUtil {
+public class HeapUtil {
   public static void main(String[] args) {
-    // Creating a PriorityQueue with a custom comparator (Max-Heap)
+    // maxheap
     PriorityQueue<Integer> maxHeap = new PriorityQueue<>(Collections.reverseOrder());
 
     // Adding elements to the heap
@@ -14,6 +14,7 @@ public class PqUtil {
     maxHeap.add(5);
     maxHeap.add(15);
 
+    // minheap
     PriorityQueue<Integer> minHeap = new PriorityQueue<>();
     minHeap.add(10);
     minHeap.add(20);
