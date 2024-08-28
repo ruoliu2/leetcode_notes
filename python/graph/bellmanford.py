@@ -27,3 +27,29 @@ class Solution:
                 prices[d] = min(prices[s] + p, tmp[d])
             prices = tmp
         return prices[dst] if prices[dst] != float("inf") else -1
+
+    # 1514
+    def maxProbability(
+        self,
+        n: int,
+        edges: list[list[int]],
+        succProb: list[float],
+        start: int,
+        end: int,
+    ) -> float:
+        dist = [0] * n
+        dist[start] = 1
+
+        for _ in range(n - 1):
+            update = 0
+            for i, (u, v) in enumerate(edges):
+                if dist[u] * succProb[i] > dist[v]:
+                    dist[v] = dist[u] * succProb[i]
+                    update = 1
+                if dist[v] * succProb[i] > dist[u]:
+                    dist[u] = dist[v] * succProb[i]
+                    update = 1
+            if not update:
+                break
+
+        return dist[end]
