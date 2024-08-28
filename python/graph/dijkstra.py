@@ -3,8 +3,8 @@ import heapq
 import itertools
 
 
-# 2812
-class Solution1:
+class Solution:
+    # 2812
     def maximumSafenessFactor(self, grid: list[list[int]]) -> int:
         n, m = len(grid), len(grid[0])
         safeness = [[-1] * n for _ in range(n)]
@@ -27,9 +27,7 @@ class Solution1:
                 unseen.discard((nx, ny))
         return -1
 
-
-# 743   single source shortest path
-class Solution2:
+    # 743   single source shortest path
     def networkDelayTime(self, times: list[list[int]], n: int, k: int) -> int:
         graph = collections.defaultdict(list)
         for u, v, w in times:
