@@ -18,3 +18,18 @@ class UF:
         self.par[p2] = p1
         self.rank[p1] += self.rank[p2]
         return 1
+
+
+class Solution:
+    # 947
+    def removeStones(self, stones: list[list[int]]) -> int:
+        uf = {}
+
+        def find(node):
+            if node != uf.setdefault(node, node):
+                uf[node] = find(uf[node])
+            return uf[node]
+
+        for r, c in stones:
+            uf[find(r)] = find(~c)
+        return len(stones) - len({find(node) for node in uf})
