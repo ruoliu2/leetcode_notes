@@ -10,7 +10,7 @@ class Solution:
                     l += 1
                     r -= 1
                 else:
-                    r -= 1
+                    l += 1
                 cnt += 1
             return cnt <= k
 
