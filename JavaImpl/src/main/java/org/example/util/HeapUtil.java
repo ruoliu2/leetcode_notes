@@ -1,4 +1,4 @@
-package org.example.Util;
+package org.example.util;
 
 import java.util.Collections;
 import java.util.PriorityQueue;
