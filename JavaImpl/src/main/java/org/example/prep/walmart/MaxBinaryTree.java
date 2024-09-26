@@ -3,7 +3,7 @@ package org.example.prep.walmart;
 import org.example.util.TreeNode;
 
 // 654. Maximum Binary Tree
-class Solution2 {
+class MaxBinaryTree {
   public TreeNode constructMaximumBinaryTree(int[] nums) {
     return task(0, nums.length - 1, nums);
   }

@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-//1268. Search Suggestions System
-class Solution {
+// 1268. Search Suggestions System
+class SearchSuggestions {
   public List<List<String>> suggestedProducts(String[] products, String searchWord) {
     Arrays.sort(products);
     List<List<String>> result = new ArrayList<>();
@@ -20,9 +20,8 @@ class Solution {
       for (int j = index; j < Math.min(products.length, index + 3); j++) {
         if (products[j].startsWith(prefix)) {
           suggestions.add(products[j]);
-        } else {
-          break;
         }
+        break;
       }
       result.add(suggestions);
       i = index; // Update i for next prefix search

@@ -2,11 +2,17 @@ package org.example.usage;
 
 import java.util.Collections;
 import java.util.PriorityQueue;
+import org.example.util.Tuple;
 
-public class HeapUtil {
+public class HeapUsage {
   public static void main(String[] args) {
     // maxheap
     PriorityQueue<Integer> maxHeap = new PriorityQueue<>(Collections.reverseOrder());
+
+    PriorityQueue<Tuple<Integer, Integer>> priorityQueue =
+        new PriorityQueue<>(
+            (a, b) -> a.getFirst().compareTo(b.getFirst()) // Order by first
+            );
 
     // Adding elements to the heap
     maxHeap.add(10);
