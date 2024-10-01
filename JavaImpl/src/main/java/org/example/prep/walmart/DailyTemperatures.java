@@ -1,20 +1,31 @@
 package org.example.prep.walmart;
 
-public class Temperatures {
-  public int[] warmerTemp(int[] temperatures) {
-    int[] result = new int[temperatures.length];
+import java.util.ArrayDeque;
+import java.util.Arrays;
+import java.util.Deque;
 
-    for (int i = 0; i < temperatures.length; i++) {
-      int currentTemp = temperatures[i];
-      int days = 0;
-      for (int j = i + 1; j < temperatures.length; j++) {
-        if (temperatures[j] > currentTemp) {
-          days = j - i;
-          break;
-        }
+public class DailyTemperatures {
+  public int[] dailyTemperatures(int[] temperatures) {
+    int n = temperatures.length;
+    int[] answer = new int[n];
+    Deque<Integer> stack = new ArrayDeque<>();
+
+    for (int i = 0; i < n; i++) {
+      while (!stack.isEmpty() && temperatures[i] > temperatures[stack.peek()]) {
+        int idx = stack.pop();
+        answer[idx] = i - idx;
       }
-      result[i] = days;
+      stack.push(i);
     }
-    return result;
+
+    return answer;
+  }
+
+  public static void main(String[] args) {
+    DailyTemperatures solution = new DailyTemperatures();
+    int[] temperatures = {73, 74, 75, 71, 69, 72, 76, 73};
+    int[] result = solution.dailyTemperatures(temperatures);
+
+    System.out.println(Arrays.toString(result));
   }
 }
