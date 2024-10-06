@@ -1,6 +1,6 @@
 package org.example.util;
 
-class UnionFind {
+public class UnionFind {
   private final int[] parent;
   private final int[] rank;
 

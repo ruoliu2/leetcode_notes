@@ -14,7 +14,6 @@ class Solution:
             return set(((x - 1, y), (x, y - 1), (x + 1, y), (x, y + 1))) & unseen
 
         # set - visit
-
         hp = [(-safeness[-1][-1], n - 1, m - 1)]
         unseen.discard((n - 1, m - 1))
         while hp:
