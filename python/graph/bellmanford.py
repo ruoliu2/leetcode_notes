@@ -8,10 +8,10 @@ for k in range(n):
         d[v] = min(d[v], d[u] + l[u,v])
 for each v in V:
     dist[(s,v)] = d[v]
-    
+
 time:  O(mn)
 space: O(n)
-    
+
 """
 
 
