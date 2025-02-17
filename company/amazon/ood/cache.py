@@ -1,24 +1,21 @@
-from abc import ABC, abstractmethod
 from collections import OrderedDict
 
 
 # Define the abstract base class for eviction policies.
-class EvictionPolicy(ABC):
-    @abstractmethod
+class EvictionPolicy:
     def on_get(self, key, cache):
         """
         Called when a key is read from the cache.
         May modify the cache (e.g., evict the key after reading).
         """
-        pass
+        raise NotImplementedError("on_get must be implemented by the subclass.")
 
-    @abstractmethod
     def on_set(self, key, cache):
         """
         Called before inserting a new key.
         May modify the cache (e.g., evict an item if capacity is reached).
         """
-        pass
+        raise NotImplementedError("on_set must be implemented by the subclass.")
 
 
 # Policy 1: Evict an item immediately after it is read.
