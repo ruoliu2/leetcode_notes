@@ -4,3 +4,5 @@ cpp
 cpp/draft.cpp
 python/top150/*
 .pytest_cache
+.DS_Store
+.vscode
