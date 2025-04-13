@@ -109,6 +109,32 @@ class QuerySystem:
         self.current_index = end_index
         return page
 
+"""
+if lot of txn, design API
+
+Filtering and Pagination are executed on the data store level.
+API remains stateless and scalable.
+
+1. Backend Data Storage & Indexing
+Leverage a Database: Rather than loading all transactions into memory, store the transactions in a scalable database (e.g., SQL with proper indexing or NoSQL for high write throughput).
+Indexing: Ensure that fields frequently used in filters (such as timestamp, user ID, currency, and amount) are indexed. This allows for efficient queries even with millions of records.
+
+2. Efficient Querying
+Database Query Filters: Offload filtering to the database rather than fetching all data and filtering in the application layer. This leverages the database's optimization.
+Pagination Queries: Use database-supported pagination techniques (like using LIMIT/OFFSET in SQL or cursor-based pagination) to avoid large data transfers and memory overload.
+
+3. API Design Considerations
+Stateless Endpoints: Design your API endpoints to be stateless so that each request contains all necessary parameters (time range, amount range, user ID, currency, and pagination cursor/page number).
+Cursor-Based Pagination: Instead of traditional page numbers, consider cursor-based pagination for better performance and consistency, especially when dealing with dynamically changing data.
+Asynchronous Processing: For particularly heavy queries, consider msg queue.
+
+4. Caching and Throttling
+Caching: Use caching strategies (like Redis or in-memory caching) for frequently requested query results or for intermediate query states.
+Rate Limiting: Implement rate limiting on your API to prevent abuse and ensure that the system can scale under load.
+
+"""
+
+
 # Example usage:
 if __name__ == "__main__":
     records = [
