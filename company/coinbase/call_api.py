@@ -3,10 +3,9 @@ import json
 
 url = "https://api.example.com/endpoint"
 data = {"key": "value"}
-headers = {"Content-Type": "application/json"}
-
+# path var use params, query body use json
 # Making a POST request
-response = requests.post(url, data=json.dumps(data), headers=headers)
+response = requests.post(url, json=data)
 
 # Check if the request was successful
 if response.status_code == 200:
