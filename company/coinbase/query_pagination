@@ -1,0 +1,129 @@
+from abc import ABC, abstractmethod
+from typing import List, Optional
+
+# Base filter interface
+class Filter(ABC):
+    @abstractmethod
+    def apply(self, record: List[str]) -> bool:
+        pass
+
+# Concrete filter classes
+class TimeFilter(Filter):
+    def __init__(self, start: int, end: int):
+        self.start = start
+        self.end = end
+
+    def apply(self, record: List[str]) -> bool:
+        # record[0] is the timestamp (string), convert to int
+        timestamp = int(record[0])
+        return self.start <= timestamp <= self.end
+
+class AmountFilter(Filter):
+    def __init__(self, start: int, end: int):
+        self.start = start
+        self.end = end
+
+    def apply(self, record: List[str]) -> bool:
+        # record[4] is the amount (string), convert to int
+        amount = int(record[4])
+        return self.start <= amount <= self.end
+
+class UserIdFilter(Filter):
+    def __init__(self, user_id: str):
+        self.user_id = user_id
+
+    def apply(self, record: List[str]) -> bool:
+        # record[2] is the userId
+        return record[2] == self.user_id
+
+class CurrencyFilter(Filter):
+    def __init__(self, currency: str):
+        self.currency = currency
+
+    def apply(self, record: List[str]) -> bool:
+        # record[3] is the currency
+        return record[3] == self.currency
+
+class QuerySystem:
+    def __init__(self, records: List[List[str]]):
+        # Preprocess records:
+        # Sort records in non-descending order by timestamp.
+        # Note: converting timestamp to int for proper numerical ordering.
+        self.all_records = sorted(records, key=lambda r: int(r[0]))
+        self.filters: List[Filter] = []
+        self.page_size: Optional[int] = None
+        self.current_index = 0
+
+    def setPageSize(self, size: int) -> None:
+        self.page_size = size
+        # Reset pagination index whenever page size changes
+        self.current_index = 0
+
+    def setTimeRange(self, start: int, end: int) -> None:
+        # Remove any previous TimeFilter (if exists)
+        self.filters = [f for f in self.filters if not isinstance(f, TimeFilter)]
+        self.filters.append(TimeFilter(start, end))
+        self.current_index = 0
+
+    def setAmountRange(self, start: int, end: int) -> None:
+        # Remove any previous AmountFilter (if exists)
+        self.filters = [f for f in self.filters if not isinstance(f, AmountFilter)]
+        self.filters.append(AmountFilter(start, end))
+        self.current_index = 0
+
+    def setUserId(self, user_id: str) -> None:
+        # Remove any previous UserIdFilter (if exists)
+        self.filters = [f for f in self.filters if not isinstance(f, UserIdFilter)]
+        self.filters.append(UserIdFilter(user_id))
+        self.current_index = 0
+
+    def setCurrency(self, currency: str) -> None:
+        # Remove any previous CurrencyFilter (if exists)
+        self.filters = [f for f in self.filters if not isinstance(f, CurrencyFilter)]
+        self.filters.append(CurrencyFilter(currency))
+        self.current_index = 0
+
+    def _apply_filters(self, record: List[str]) -> bool:
+        # A record must satisfy all active filters.
+        for f in self.filters:
+            if not f.apply(record):
+                return False
+        return True
+
+    def _filtered_records(self) -> List[List[str]]:
+        # Filter all records with active filters.
+        return [record for record in self.all_records if self._apply_filters(record)]
+
+    def nextPage(self) -> List[List[str]]:
+        filtered = self._filtered_records()
+        # If no page size is defined, return all matching records.
+        if self.page_size is None:
+            # Reset index for future calls
+            self.current_index = len(filtered)
+            return filtered
+
+        # Calculate the next page based on current index and page size.
+        start_index = self.current_index
+        end_index = start_index + self.page_size
+        page = filtered[start_index:end_index]
+        self.current_index = end_index
+        return page
+
+# Example usage:
+if __name__ == "__main__":
+    records = [
+        ["1", "id-1", "user-1", "USD", "5"],
+        ["2", "id-2", "user-2", "USD", "10"],
+        ["3", "id-3", "user-1", "CAD", "20"],
+        ["4", "id-4", "user-1", "CAD", "10"],
+        ["5", "id-5", "user-1", "AUD", "30"],
+        ["6", "id-6", "user-1", "JPY", "100"]
+    ]
+    qs = QuerySystem(records)
+    qs.setPageSize(2)
+    qs.setTimeRange(1, 5)
+    qs.setUserId("user-1")
+    
+    print(qs.nextPage())  # Expected: [["1", "id-1", "user-1", "USD", "5"], ["3", "id-3", "user-1", "CAD", "20"]]
+    print(qs.nextPage())  # Expected: [["4", "id-4", "user-1", "CAD", "10"], ["5", "id-5", "user-1", "AUD", "30"]]
+    print(qs.nextPage())  # Expected: []

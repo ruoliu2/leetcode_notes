@@ -6,3 +6,4 @@ python/top150/*
 .pytest_cache
 .DS_Store
 .vscode
+sql/*
