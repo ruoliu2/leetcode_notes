@@ -118,6 +118,7 @@ API remains stateless and scalable.
 1. Backend Data Storage & Indexing
 Leverage a Database: Rather than loading all transactions into memory, store the transactions in a scalable database (e.g., SQL with proper indexing or NoSQL for high write throughput).
 Indexing: Ensure that fields frequently used in filters (such as timestamp, user ID, currency, and amount) are indexed. This allows for efficient queries even with millions of records.
+composite index (timestamp, user_id, currency, amount)
 
 2. Efficient Querying
 Database Query Filters: Offload filtering to the database rather than fetching all data and filtering in the application layer. This leverages the database's optimization.
