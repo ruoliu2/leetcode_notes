@@ -35,6 +35,67 @@ class InterleaveIterator:
                 self.q.append((i, 0))
 
 
+class ZigzagIterator:
+    def __init__(self, v1: List[int], v2: List[int]):
+        self.max_len = max([len(sublist) for sublist in [v1, v2]])
+        self.data = [v1, v2]
+        self.row = 0
+        self.col = 0
+        self.next_item = None
+        self._advance()
+
+    def _advance(self):
+        while self.col < self.max_len:
+            while self.col >= len(self.data[self.row]):
+                self.row += 1
+                if self.row == len(self.data):
+                    self.row = 0
+                    self.col += 1
+                if self.col >= self.max_len:
+                    return
+            self.next_item = self.data[self.row][self.col]
+            self.row += 1
+            if self.row == len(self.data):
+                self.row = 0
+                self.col += 1
+            break
+
+    def next(self) -> int:
+        res = self.next_item
+        self.next_item = None
+        self._advance()
+        return res
+
+    def hasNext(self) -> bool:
+        return self.next_item is not None
+
+
+class ZigzagIterator2:
+    def __init__(self, v1: List[int], v2: List[int]):
+        self.data = [v1, v2]
+        self.max_len = max(len(v1), len(v2))
+        self.next_item = None
+        self.it = self.gen()
+
+    def gen(self):
+        for i in range(self.max_len):
+            for sublist in self.data:
+                if i < len(sublist):
+                    yield sublist[i]
+
+    def next(self) -> int:
+        if self.next_item is not None:
+            res, self.next_item = self.next_item, None
+            return res
+        return next(self.it, None)
+
+    def hasNext(self) -> bool:
+        if self.next_item is not None:
+            return True
+        self.next_item = self.next()
+        return self.next_item is not None
+
+
 class TestInterleaveIterator(unittest.TestCase):
     @staticmethod
     def stringifyResult(iterator: InterleaveIterator) -> str:
