@@ -120,6 +120,17 @@ Leverage a Database: Rather than loading all transactions into memory, store the
 Indexing: Ensure that fields frequently used in filters (such as timestamp, user ID, currency, and amount) are indexed. This allows for efficient queries even with millions of records.
 composite index (timestamp, user_id, currency, amount)
 
+this way we leverage cursor based pagination, and this is more efficient than offset based pagination.
+
+Avoids Skipping Rows: Cursor-based queries jump directly to the position, eliminating the need to count and skip preceding rows.
+
+Optimized Use of Indexes: They leverage database indexes for rapid lookup of the starting point.
+
+Scalability: Performance remains stable even with large datasets, unlike offset which degrades with high offset values.
+
+Improved Consistency: Less prone to duplicate or missing records in dynamic datasets.
+
+
 2. Efficient Querying
 Database Query Filters: Offload filtering to the database rather than fetching all data and filtering in the application layer. This leverages the database's optimization.
 Pagination Queries: Use database-supported pagination techniques (like using LIMIT/OFFSET in SQL or cursor-based pagination) to avoid large data transfers and memory overload.
