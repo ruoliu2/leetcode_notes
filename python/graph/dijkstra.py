@@ -11,7 +11,7 @@ class Solution:
         unseen = set(itertools.product(range(n), range(n)))
 
         def nei(x, y):
-            return set(((x - 1, y), (x, y - 1), (x + 1, y), (x, y + 1))) & unseen
+            return {((x - 1, y), (x, y - 1), (x + 1, y), (x, y + 1))} & unseen
 
         # set - visit
         hp = [(-safeness[-1][-1], n - 1, m - 1)]
