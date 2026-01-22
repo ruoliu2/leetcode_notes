@@ -5,18 +5,32 @@ Given List[Transaction] from CSV files, compute:
   Map[merchantId, Map[hourDiff, sumAmount]]
 
 Rules:
-  - Only COMPLETED transactions
+  - Only COMPLETED transactions (use given Status enum)
   - Only last 24 hours
   - Group by merchantId and hour difference from current time
   - Sum amounts per group
+  - Use given get_hour_diff() function
 
 Follow-up (Production optimization):
-  - Pre-aggregate in database (hourly rollups)
-  - Cache results with TTL
-  - Use streaming/incremental updates instead of batch
-  - Index on (merchantId, status, startTime)
-  - Partition data by time for faster range queries
+  1. Database layer:
+     - Pre-aggregate hourly rollups (materialized view)
+     - Index on (status, startTime, merchantId)
+     - Partition by time for faster range queries
+
+  2. Caching:
+     - Cache results with short TTL (e.g., 1 min)
+     - Invalidate on new transactions
+
+  3. Streaming:
+     - Use Kafka/Flink for real-time aggregation
+     - Maintain rolling 24h window incrementally
+     - Avoid full scan on every query
+
+  4. Query optimization:
+     - Pre-filter COMPLETED in DB query
+     - Only fetch last 24h data, not all history
 """
+
 from collections import defaultdict
 from enum import Enum
 from dataclasses import dataclass
