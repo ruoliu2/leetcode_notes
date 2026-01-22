@@ -25,7 +25,12 @@ from collections import defaultdict
 
 
 class RandomDict:
-    """O(1) get/put/delete/get_random. Adapted from LC 381 pattern."""
+    """
+    O(1) get/put/delete/get_random. Adapted from LC 381 pattern.
+
+    Key insight: maintain list of UNIQUE vals for random.choice().
+    When val count 0->1: append to list. When 1->0: swap-with-last removal.
+    """
 
     def __init__(self):
         self.map = {}                # key -> val
